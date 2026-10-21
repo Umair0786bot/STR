@@ -1,0 +1,925 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>US STR Test Results</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="What it takes to get the List Price strikethrough (STR) on Amazon US: results of the September and October hold tests.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: one reading column of report sections; summary first (tiles + hold-length chart), then evidence, products, rules, full record. */
+:root {
+  --bg: #f4f6fa;
+  --surface: #ffffff;
+  --surface-2: #eef1f7;
+  --ink: #0f1b2d;
+  --ink-2: #46536a;
+  --muted: #76829a;
+  --grid: #e3e8f0;
+  --axis: #c3cbd9;
+  --line: rgba(15, 27, 45, 0.10);
+  --navy: #1f3864;
+  --navy-ink: #1f3864;
+  --navy-soft: #e6ecf7;
+  --good: #0ca30c;
+  --bad: #c2185b;
+  --good-tint: rgba(12, 163, 12, 0.10);
+  --bad-tint: rgba(194, 24, 91, 0.09);
+  --good-ink: #0b6b14;
+  --bad-ink: #9c1449;
+  --amazon-red: #b12704;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --sans: "Geist", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b1120;
+    --surface: #131b2d;
+    --surface-2: #1a2438;
+    --ink: #eef2f9;
+    --ink-2: #b9c3d6;
+    --muted: #8a96ac;
+    --grid: #232e45;
+    --axis: #38455f;
+    --line: rgba(255, 255, 255, 0.10);
+    --navy: #8fb0ea;
+    --navy-ink: #c9d8f4;
+    --navy-soft: #1b2a47;
+    --good: #0ca30c;
+    --bad: #e0457b;
+    --good-tint: rgba(12, 163, 12, 0.16);
+    --bad-tint: rgba(224, 69, 123, 0.14);
+    --good-ink: #5fd35f;
+    --bad-ink: #f28cb0;
+    --amazon-red: #ff8a65;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0b1120;
+  --surface: #131b2d;
+  --surface-2: #1a2438;
+  --ink: #eef2f9;
+  --ink-2: #b9c3d6;
+  --muted: #8a96ac;
+  --grid: #232e45;
+  --axis: #38455f;
+  --line: rgba(255, 255, 255, 0.10);
+  --navy: #8fb0ea;
+  --navy-ink: #c9d8f4;
+  --navy-soft: #1b2a47;
+  --good: #0ca30c;
+  --bad: #e0457b;
+  --good-tint: rgba(12, 163, 12, 0.16);
+  --bad-tint: rgba(224, 69, 123, 0.14);
+  --good-ink: #5fd35f;
+  --bad-ink: #f28cb0;
+  --amazon-red: #ff8a65;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.6 var(--sans);
+}
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+a { color: var(--navy-ink); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; border-radius: 4px; }
+
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* Masthead */
+.masthead { background: var(--navy-soft); border-bottom: 1px solid var(--line); }
+.masthead .wrap { padding-block: 40px 36px; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+.eyebrow { font: 600 12px/1.2 var(--sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 12px; }
+h1 { font: 800 clamp(30px, 5vw, 46px)/1.05 var(--display); letter-spacing: -0.02em; margin: 0 0 14px; text-wrap: balance; color: var(--ink); }
+.lede { font-size: 17px; color: var(--ink-2); margin: 0; max-width: 58ch; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 18px; font-size: 13px; color: var(--muted); }
+
+/* PDP price motif */
+.pdp {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: 0 10px 30px -18px rgba(15, 27, 45, 0.35);
+}
+.pdp-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.pdp-price { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.pdp-off { font: 500 26px/1 var(--sans); color: var(--amazon-red); }
+.pdp-now { font: 600 40px/1 var(--sans); color: var(--ink); }
+.pdp-now sup { font-size: 0.45em; vertical-align: 0.95em; margin-right: 1px; }
+.pdp-list { margin-top: 6px; font-size: 14px; color: var(--muted); }
+.pdp-list s { text-decoration-thickness: 1.5px; }
+.pdp-sku { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--ink-2); }
+.pdp-sku code { font: 500 12px var(--mono); color: var(--ink); }
+
+/* Section nav */
+.toc { border-bottom: 1px solid var(--line); background: var(--surface); }
+.toc .wrap { display: flex; gap: 4px 18px; flex-wrap: wrap; padding-block: 10px; font-size: 13.5px; }
+.toc a { text-decoration: none; color: var(--ink-2); padding: 4px 0; }
+.toc a:hover { color: var(--ink); text-decoration: underline; }
+
+main .wrap { padding-block: 8px 48px; }
+section { padding-top: 44px; }
+h2 { font: 700 clamp(22px, 3vw, 28px)/1.15 var(--display); letter-spacing: -0.01em; margin: 0 0 8px; text-wrap: balance; }
+.sub { color: var(--ink-2); margin: 0 0 20px; max-width: 70ch; }
+.note { font-size: 12.5px; color: var(--muted); margin-top: 12px; max-width: 80ch; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+
+/* Stat tiles */
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 18px 16px; display: flex; flex-direction: column; gap: 6px; }
+.tile.win { border-color: color-mix(in srgb, var(--good) 45%, var(--line)); }
+.tile-label { font-size: 13px; color: var(--ink-2); }
+.tile-value { font: 600 34px/1.05 var(--sans); color: var(--ink); }
+.tile-value small { font-size: 16px; font-weight: 500; color: var(--muted); margin-left: 4px; }
+.tile-foot { font-size: 13px; color: var(--ink-2); display: flex; align-items: center; gap: 6px; }
+.meter { height: 8px; border-radius: 99px; background: var(--surface-2); overflow: hidden; margin-top: 4px; }
+.meter > span { display: block; height: 100%; border-radius: 99px; background: var(--good); }
+
+/* Pills */
+.pill { display: inline-flex; align-items: center; gap: 5px; font: 600 11.5px/1 var(--sans); letter-spacing: 0.02em; padding: 4px 8px 4px 6px; border-radius: 99px; white-space: nowrap; color: var(--ink); }
+.pill.good { background: var(--good-tint); }
+.pill.bad { background: var(--bad-tint); }
+.pill svg { flex: none; }
+
+/* Legend */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--ink-2); margin-bottom: 10px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+/* Charts */
+.chart { position: relative; width: 100%; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { font-family: var(--sans); }
+.axis-text { fill: var(--muted); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.axis-title { fill: var(--ink-2); font-size: 12px; font-weight: 500; }
+.anno { fill: var(--ink); font-size: 12.5px; font-weight: 600; }
+.anno-sub { fill: var(--ink-2); font-size: 11.5px; }
+
+/* Tooltip */
+.tip {
+  position: fixed; z-index: 50; pointer-events: none;
+  background: var(--surface); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 10px;
+  box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.35);
+  padding: 10px 12px; font-size: 12.5px; max-width: 280px; line-height: 1.45;
+}
+.tip strong { display: block; font-size: 15px; font-weight: 600; }
+.tip .tip-sku { font: 500 11.5px var(--mono); color: var(--ink-2); word-break: break-word; }
+.tip .tip-row { color: var(--ink-2); }
+
+/* Share bars */
+.bars { display: grid; gap: 14px; position: relative; }
+.bar-row { display: grid; grid-template-columns: minmax(0, 250px) minmax(0, 1fr); gap: 6px 16px; align-items: center; cursor: default; border-radius: 8px; }
+.bar-row:hover .bar-fill, .bar-row:focus .bar-fill { filter: brightness(1.08); }
+.bar-name { min-width: 0; }
+.bar-name .sku { font: 500 12.5px/1.3 var(--mono); color: var(--ink); word-break: break-word; }
+.bar-name .meta { font-size: 12px; color: var(--muted); display: flex; gap: 8px; align-items: center; margin-top: 3px; flex-wrap: wrap; }
+.bar-track { position: relative; height: 24px; }
+.bar-fill { position: absolute; left: 0; top: 4px; height: 16px; border-radius: 0 4px 4px 0; min-width: 2px; }
+.bar-fill.good { background: var(--good); }
+.bar-fill.bad { background: var(--bad); }
+.bar-val { position: absolute; top: 2px; z-index: 1; padding: 0 4px; background: var(--surface); border-radius: 4px; font-size: 12.5px; color: var(--ink); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.bar-val em { font-style: normal; color: var(--muted); }
+.bar-axis { display: grid; grid-template-columns: minmax(0, 250px) minmax(0, 1fr); gap: 16px; margin-top: 4px; }
+.bar-axis .ticks { position: relative; height: 38px; border-top: 1px solid var(--axis); }
+.bar-axis .ticks span { position: absolute; top: 3px; transform: translateX(-50%); font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.ref-line { position: absolute; top: -7px; bottom: -7px; width: 0; border-left: 2px solid var(--ink); opacity: 0.45; pointer-events: none; }
+
+/* Timeline */
+.tl { display: grid; gap: 4px; }
+.tl-group { font: 600 12px/1 var(--sans); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); padding: 14px 0 6px; display: flex; align-items: center; gap: 8px; }
+.tl-row, .tl-head { display: grid; grid-template-columns: minmax(0, 250px) minmax(0, 1fr); gap: 4px 16px; align-items: center; }
+.tl-label .sku { font: 500 12.5px/1.3 var(--mono); word-break: break-word; }
+.tl-label .meta { font-size: 12px; color: var(--muted); }
+.tl-strip svg { display: block; width: 100%; height: 40px; overflow: visible; }
+
+/* Product cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+.card-img { position: relative; aspect-ratio: 1 / 1; max-width: 100%; background: #ffffff; display: grid; place-items: center; }
+.card-img img { width: 86%; height: 86%; object-fit: contain; }
+.swatch { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 16px; }
+.swatch span { font: 600 13px/1.3 var(--sans); padding: 6px 10px; border-radius: 6px; background: rgba(255, 255, 255, 0.82); color: #0f1b2d; }
+.card-status { position: absolute; left: 10px; top: 10px; }
+.card-status .pill { background: #ffffff; color: #0f1b2d; box-shadow: 0 1px 4px rgba(15, 27, 45, 0.25); }
+.card-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.card-sku { font: 600 12.5px/1.35 var(--mono); word-break: break-word; }
+.card-title { font-size: 12.5px; color: var(--ink-2); margin-top: -6px; }
+.card-price { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.card-price .off { color: var(--amazon-red); font-size: 16px; font-weight: 500; }
+.card-price .now { font-size: 22px; font-weight: 600; }
+.card-price .list { font-size: 12.5px; color: var(--muted); width: 100%; }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; border-top: 1px solid var(--line); padding-top: 10px; }
+.facts div { min-width: 0; }
+.facts dt { font-size: 11px; color: var(--muted); white-space: nowrap; }
+.facts dd { margin: 0; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.card-foot { margin-top: auto; display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; flex-wrap: wrap; }
+.shot { color: var(--muted); }
+
+/* Policy + playbook */
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+.policy blockquote { margin: 0; padding: 0; }
+.policy ul { margin: 0; padding-left: 18px; display: grid; gap: 8px; }
+.policy li strong { color: var(--ink); }
+.policy .src { font-size: 12px; color: var(--muted); margin-top: 12px; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; counter-reset: step; }
+.steps li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; align-items: start; }
+.steps li::before { counter-increment: step; content: counter(step); width: 34px; height: 34px; border-radius: 50%; background: var(--navy); color: var(--surface); display: grid; place-items: center; font: 700 15px/1 var(--display); }
+.steps b { display: block; font-size: 15px; }
+.steps span { color: var(--ink-2); font-size: 14px; }
+.not-needed { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); display: grid; gap: 6px; font-size: 14px; color: var(--ink-2); }
+
+/* Ladder */
+.ladder { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.ladder th, .ladder td { padding: 9px 10px; text-align: left; border-bottom: 1px solid var(--grid); vertical-align: middle; }
+.ladder th { font-size: 12px; font-weight: 600; color: var(--ink-2); }
+.ladder td.num { font-variant-numeric: tabular-nums; }
+.ladder tr.long td { background: var(--good-tint); }
+.scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* Record table */
+.filters { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-bottom: 14px; align-items: center; }
+.fgroup { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.fgroup > span { font-size: 12.5px; color: var(--muted); margin-right: 2px; }
+.chip { font: 500 13px/1 var(--sans); padding: 7px 11px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); cursor: pointer; }
+.chip:hover { background: var(--surface-2); }
+.chip[aria-pressed="true"] { background: var(--navy); border-color: var(--navy); color: var(--surface); }
+.count { font-size: 13px; color: var(--muted); margin-left: auto; }
+table.rec { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 760px; }
+table.rec th { text-align: left; font-size: 12px; font-weight: 600; color: var(--ink-2); padding: 10px; border-bottom: 1px solid var(--axis); white-space: nowrap; cursor: pointer; user-select: none; }
+table.rec th[aria-sort="ascending"]::after { content: " \2191"; }
+table.rec th[aria-sort="descending"]::after { content: " \2193"; }
+table.rec td { padding: 9px 10px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+table.rec td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+table.rec td.sku { font: 500 12px/1.35 var(--mono); }
+table.rec td .n { display: block; font-size: 11.5px; color: var(--muted); font-family: var(--sans); margin-top: 2px; }
+
+footer { border-top: 1px solid var(--line); background: var(--surface); }
+footer .wrap { padding-block: 22px 32px; font-size: 12.5px; color: var(--muted); display: grid; gap: 6px; }
+
+@media (max-width: 820px) {
+  .masthead .wrap { grid-template-columns: minmax(0, 1fr); }
+  .two { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .tiles { grid-template-columns: minmax(0, 1fr); }
+  .bar-row, .bar-axis, .tl-row, .tl-head { grid-template-columns: minmax(0, 1fr); }
+  .bar-axis > div:first-child, .tl-head > div:first-child { display: none; }
+  .tile-value { font-size: 30px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .meter > span, .bar-fill { transition: width 0.6s ease; }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Brand Management · Amazon US · Strikethrough price test</p>
+      <h1>Hold the price for more than 9 days, get one order, and the strikethrough shows.</h1>
+      <p class="lede">Two rounds of tests, 60 SKUs and every hold from 2 to 13 days. The only thing that separated an STR from no STR was how long we held the raised price as the featured offer.</p>
+      <div class="meta-row"><span>Updated 21 Oct 2026</span><span>September round: increases of 30% to 60%</span><span>October round: increases of 6% to 15%</span></div>
+    </div>
+    <figure class="pdp" aria-label="Example of the strikethrough on the product page">
+      <div class="pdp-label">How it looks on the product page after the revert</div>
+      <div class="pdp-price"><span class="pdp-off">-10%</span><span class="pdp-now"><sup>$</sup>35.95</span></div>
+      <div class="pdp-list">List Price: <s>$39.95</s></div>
+      <div class="pdp-sku"><code>SS-SATIN-PURPLE-KING-4PCS</code> after an 11-day hold at $39.95 with 8 orders</div>
+    </figure>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Sections">
+  <div class="wrap">
+    <a href="#summary">Summary</a>
+    <a href="#hold">Hold length</a>
+    <a href="#sales">Sales needed</a>
+    <a href="#orders">Order timing</a>
+    <a href="#products">Products</a>
+    <a href="#rules">Amazon's rules</a>
+    <a href="#playbook">Playbook</a>
+    <a href="#record">Full record</a>
+  </div>
+</nav>
+
+<main>
+<div class="wrap">
+
+  <section id="summary" aria-labelledby="h-summary">
+    <h2 id="h-summary">Result by hold length</h2>
+    <p class="sub">Both rounds together. SS-SATIN-GOLD-KING-4PCS is left out because it went back to base earlier than planned.</p>
+    <div class="tiles" id="tiles"></div>
+  </section>
+
+  <section id="hold" aria-labelledby="h-hold">
+    <h2 id="h-hold">Every STR came from a hold of 9 days or more, at any increase</h2>
+    <p class="sub">Each mark is one SKU test. Across the bottom is how many days we held the raised price, and up the side is how much we raised it. Small and large increases both failed on short holds, and both worked on long ones.</p>
+    <div class="panel">
+      <div class="legend" aria-hidden="true">
+        <span><svg width="14" height="14"><circle cx="7" cy="7" r="5.5" fill="var(--good)"/></svg>STR achieved</span>
+        <span><svg width="14" height="14"><circle cx="7" cy="7" r="4.5" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/></svg>No STR</span>
+      </div>
+      <div class="chart" id="scatter" role="img" aria-label="Scatter of hold days against price increase. All 39 tests held 8 days or less show no STR. Of tests held more than 9 days, 15 of 17 show STR, at increases from 8% to 59%."></div>
+    </div>
+    <p class="note">September SATIN-QUEEN-PURPLE got the STR at exactly 9 days. The three October SKUs reverted at exactly 9 days did not. That is why the standard is 10 to 11 days.</p>
+  </section>
+
+  <section id="sales" aria-labelledby="h-sales">
+    <h2 id="h-sales">A handful of orders was enough. 10% of 90-day sales was not needed.</h2>
+    <p class="sub">Orders at the raised price as a share of each SKU's last 90 days of orders, for the October SKUs held 9 days or more. BAMBOO-FULL-CREME and PURPLE-SATIN-SET-6PCS got the STR at under 4%. SS-SATIN-TAUPE-QUEEN-4PCS got it at 9.3%, while SS-SATIN-STRIPED-RED-QUEEN-4PCS failed at 9.8% because it was reverted at 9 days.</p>
+    <div class="panel">
+      <div class="legend" aria-hidden="true">
+        <span><svg width="22" height="12"><rect x="0" y="2" width="22" height="8" rx="2" fill="var(--good)"/></svg>STR achieved</span>
+        <span><svg width="22" height="12"><rect x="0" y="2" width="22" height="8" rx="2" fill="var(--bad)"/></svg>No STR</span>
+      </div>
+      <div id="bars"></div>
+    </div>
+    <p class="note">In September, the SKUs that got the STR had only 0.7% to 3.9% of their 90-day orders at the raised price.</p>
+  </section>
+
+  <section id="orders" aria-labelledby="h-orders">
+    <h2 id="h-orders">Orders don't need to be daily or close to the revert</h2>
+    <p class="sub">Each row is one hold, day by day. Dots are orders at the raised price; the bar ends on the day we reverted. PURPLE-SATIN-SET-6PCS took both its orders on day 4 and none for the next seven days, and still got the STR. SS-SATIN-STRIPED-RED-QUEEN-4PCS sold almost every day but was reverted at 9 days and failed.</p>
+    <div class="panel">
+      <div class="legend" aria-hidden="true">
+        <span><svg width="14" height="14"><circle cx="7" cy="7" r="5" fill="var(--ink)"/></svg>Orders that day</span>
+        <span><svg width="26" height="12"><rect x="0" y="3" width="26" height="6" rx="3" fill="var(--good-tint)" stroke="var(--good)" stroke-width="1"/></svg>Hold, STR achieved</span>
+        <span><svg width="26" height="12"><rect x="0" y="3" width="26" height="6" rx="3" fill="var(--bad-tint)" stroke="var(--bad)" stroke-width="1"/></svg>Hold, no STR</span>
+        <span><svg width="10" height="14"><line x1="5" y1="1" x2="5" y2="13" stroke="var(--ink)" stroke-width="2"/></svg>Revert to base</span>
+      </div>
+      <div class="tl" id="timeline"></div>
+    </div>
+    <p class="note">Day 1 is the day the price went up. Order days are Pacific calendar days from Command Center.</p>
+  </section>
+
+  <section id="products" aria-labelledby="h-products">
+    <h2 id="h-products">The products in the 9-day and 9+ day groups</h2>
+    <p class="sub">Five SKUs held for 11 days now show the List Price struck through. The three reverted at 9 days do not.</p>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section id="rules" aria-labelledby="h-rules">
+    <div class="two">
+      <div class="panel policy">
+        <h2 id="h-rules">What Amazon's policy says</h2>
+        <blockquote>
+          <ul>
+            <li>List prices are validated against <strong>recent sales history</strong>, recent <strong>featured offer</strong> prices and other retailers.</li>
+            <li>A list price is validated when the product is <strong>purchased on Amazon at that price</strong>. Only orders that match the featured offer price count.</li>
+            <li>The lookback period is <strong>90 days</strong>.</li>
+            <li>A product needs at least <strong>9 days of featured offer data</strong> to qualify for validation through Amazon sales history.</li>
+            <li>Our offer must be <strong>lower than the list price</strong>.</li>
+          </ul>
+        </blockquote>
+        <p class="src">Source: Amazon Seller Assistant, list price validation.</p>
+      </div>
+      <div class="panel" id="playbook">
+        <h2>Our playbook</h2>
+        <ol class="steps">
+          <li><div><b>Raise List Price and Your Price to the test price</b><span>An increase of 8% to 15% has worked as well as 30% to 60%.</span></div></li>
+          <li><div><b>Hold it as the featured offer for 10 to 11 days</b><span>Keep the Buy Box and get at least one order at the raised price. It doesn't need to be near the end.</span></div></li>
+          <li><div><b>Revert Your Price only</b><span>Keep the List Price at the test price. Check the product page on day 1, 2 and 3 after the revert.</span></div></li>
+        </ol>
+        <div class="not-needed">
+          <div><span class="pill bad" id="nn1"></span> 10% of 90-day sales at the raised price</div>
+          <div><span class="pill bad" id="nn2"></span> A big price increase</div>
+          <div><span class="pill bad" id="nn3"></span> Orders every day of the hold</div>
+        </div>
+        <p class="note">Expect to repeat the hold before the 90-day lookback runs out. We are monitoring how long the STR lasts.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-ladder">
+    <h2 id="h-ladder">October round, hold by hold</h2>
+    <p class="sub">The October SKUs were all raised on the same day and grouped by how long each one was held. SS-SATIN-GOLD-KING-4PCS is left out.</p>
+    <div class="panel scroll-x"><table class="ladder" id="ladder"></table></div>
+  </section>
+
+  <section id="record" aria-labelledby="h-record">
+    <h2 id="h-record">Full record</h2>
+    <p class="sub">Every test in both rounds. Click a column heading to sort.</p>
+    <div class="filters" id="filters"></div>
+    <div class="panel scroll-x"><table class="rec" id="rec"></table></div>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>Orders at the raised price and 90-day orders come from the Ecotero Command Center (Amazon order data through 21 Oct 2026, Pacific days). Buy Box share comes from the Business Report through 19 Oct 2026. Hold days and results come from the team's STR test sheet.</div>
+    <div>Where the team sheet counts orders differently from Command Center, the table notes it. September order counts for holds of 8 days or less are from the team sheet.</div>
+  </div>
+</footer>
+
+<div class="tip" id="tip" role="tooltip" hidden></div>
+
+<script>
+(function () {
+  "use strict";
+
+  // r: round, h: hold days, o: orders at raised price, n90: 90-day orders, str: STR achieved
+  var TESTS = [
+    // October round, increases of 6% to 15%
+    { r: "Oct", sku: "BAMBOO-QUEEN-BURGUNDY-NEW", base: 89.99, up: 94.99, h: 2, o: 1, str: false, note: "Order unpaid at revert" },
+    { r: "Oct", sku: "BAMBOO-QUEEN-NAVYBLUE-6PCS", base: 94.99, up: 100.99, h: 2, o: 4, str: false },
+    { r: "Oct", sku: "BAMBOO-KING-NAVYBLUE-6PCS", base: 99.99, up: 109.99, h: 2, o: 1, str: false, note: "Order unpaid at revert" },
+    { r: "Oct", sku: "BAMBOO-KING-NAVYBLUE", base: 94.99, up: 103.99, h: 2, o: 3, str: false },
+    { r: "Oct", sku: "BAMBOO-KING-CHARCOAL-6PCS", base: 99.99, up: 107.99, h: 3, o: 3, str: false },
+    { r: "Oct", sku: "BAMBOO-KING-LIGHTGREY", base: 94.99, up: 102.99, h: 3, o: 4, str: false },
+    { r: "Oct", sku: "SATIN-4PC-QUEEN-BABY BLUE", base: 31.95, up: 35.95, h: 3, o: 2, str: false },
+    { r: "Oct", sku: "SATIN-4PC-QUEEN-LAVENDER", base: 31.95, up: 35.95, h: 3, o: 4, str: false },
+    { r: "Oct", sku: "BAMBOO-QUEEN-LIGHTBLUE-6PCS", base: 94.99, up: 100.99, h: 4, o: 5, str: false },
+    { r: "Oct", sku: "SATIN-RED-FULL", base: 29.95, up: 31.95, h: 4, o: 1, str: false },
+    { r: "Oct", sku: "BAMBOO-KING-BURGUNDY-NEW", base: 94.99, up: 103.99, h: 4, o: 3, str: false },
+    { r: "Oct", sku: "SATIN-4PCS-FULL-ROSEWOOD", base: 29.95, up: 32.95, h: 4, o: 2, str: false },
+    { r: "Oct", sku: "SATIN-4PCS-QUEEN-STRIPE-GRAY", base: 31.95, up: 36.95, h: 4, o: 1, str: false },
+    { r: "Oct", sku: "BAMBOO-KING-MIDGREY-6PCS", base: 99.99, up: 114.99, h: 4, o: 4, str: false },
+    { r: "Oct", sku: "BAMBOO-QUEEN-LIGHTGREY-6PCS", base: 94.99, up: 102.99, h: 5, o: 2, str: false },
+    { r: "Oct", sku: "BAMBOO-QUEEN-GREY", base: 89.99, up: 96.99, h: 5, o: 4, str: false },
+    { r: "Oct", sku: "SATIN-CHAMPAGNE-QUEEN", base: 31.95, up: 35.95, h: 5, o: 4, str: false },
+    { r: "Oct", sku: "SATIN-IVORY-KING", base: 33.95, up: 35.95, h: 6, o: 10, str: false },
+    { r: "Oct", sku: "BAMBOO-QUEEN-SAGE GREEN-6PCS", base: 94.99, up: 100.99, h: 6, o: 5, str: false },
+    { r: "Oct", sku: "SATIN-QUEEN-BLUE", base: 31.95, up: 34.95, h: 6, o: 7, str: false },
+    { r: "Oct", sku: "SATIN-4PC-FULL-NAVY BLUE", base: 29.95, up: 32.95, h: 6, o: 3, str: false },
+    { r: "Oct", sku: "SATIN-QUEEN-BLUSH PINK", base: 31.95, up: 36.95, h: 6, o: 2, str: false },
+    { r: "Oct", sku: "BAMBOO-QUEEN-GREY-6PCS", base: 94.99, up: 108.99, h: 6, o: 2, str: false },
+    { r: "Oct", sku: "SS-SATIN-SEA-TEAL-KING-4PCS", base: 35.95, up: 38.95, h: 7, o: 7, str: false },
+    { r: "Oct", sku: "SATIN-4PCS-KING-ROSEWOOD", base: 33.95, up: 36.95, h: 7, o: 6, str: false },
+    { r: "Oct", sku: "BAMBOO-KING-GREY-6PCS", base: 99.99, up: 111.99, h: 7, o: 5, str: false },
+    { r: "Oct", sku: "SS-SATIN-NAVY-BLUE-FULL-4PCS", base: 29.95, up: 32.95, h: 8, o: 1, str: false },
+    { r: "Oct", sku: "SS-SATIN-DARK-GREEN-KING-4PCS", base: 35.95, up: 37.95, h: 8, o: 14, str: false, note: "Team sheet: 15 orders" },
+    { r: "Oct", sku: "SATIN-IVORY-FULL", base: 29.95, up: 31.95, h: 8, o: 0, str: false },
+    { r: "Oct", sku: "BAMBOO-CALIFKING-TAUPE", base: 94.99, up: 102.99, h: 9, o: 3, n90: 76, str: false },
+    { r: "Oct", sku: "SATIN-6PC-QUEEN-BABY BLUE", base: 31.95, up: 35.95, h: 9, o: 0, n90: 51, str: false },
+    { r: "Oct", sku: "SS-SATIN-STRIPED-RED-QUEEN-4PCS", base: 31.95, up: 36.95, h: 9, o: 8, n90: 82, str: false, note: "Team sheet: 7 orders" },
+    { r: "Oct", sku: "SS-SATIN-TAUPE-QUEEN-4PCS", base: 33.95, up: 36.95, h: 11, o: 5, n90: 54, str: true },
+    { r: "Oct", sku: "PURPLE-SATIN-SET-6PCS", base: 31.95, up: 34.95, h: 11, o: 2, n90: 59, str: true },
+    { r: "Oct", sku: "SS-SATIN-PURPLE-KING-4PCS", base: 35.95, up: 39.95, h: 11, o: 8, n90: 68, str: true, note: "Team sheet: 15 orders" },
+    { r: "Oct", sku: "BAMBOO-FULL-CREME", base: 74.99, up: 83.99, h: 11, o: 2, n90: 56, str: true },
+    { r: "Oct", sku: "SS-SATIN-IVORY-QUEEN-4PCS", base: 33.95, up: 38.95, h: 11, o: 12, n90: 71, str: true, note: "Team sheet: 13 orders. Switched to FBM with 1 unit when FBA ran out" },
+    // September round, increases of 30% to 60%
+    { r: "Sep", sku: "BAMBOO-CALIFKING-LIGHTBLUE", base: 79.99, up: 114.99, h: 11, o: 1, n90: 45, str: true, note: "Team sheet: 5 orders" },
+    { r: "Sep", sku: "BAMBOO-CALIFKING-NAVYBLUE-6PCS", base: 84.99, up: 116.99, h: 10, o: 2, n90: 53, str: true },
+    { r: "Sep", sku: "BAMBOO-TWIN-NAVYBLUE-6PCS", base: 59.99, up: 82.99, h: 10, o: 1, n90: 28, str: true },
+    { r: "Sep", sku: "BAMBOO-QUEEN-MIDGREY-6PCS", base: 79.99, up: 114.99, h: 12, o: 2, n90: 171, str: true },
+    { r: "Sep", sku: "SATIN-4PCS-KING-STONEGREY", base: 33.95, up: 52.95, h: 10, o: 5, n90: 216, str: true },
+    { r: "Sep", sku: "SATIN-QUEEN-PURPLE", base: 31.95, up: 41.49, h: 9, o: 8, n90: 204, str: true },
+    { r: "Sep", sku: "SATIN-STONEGREY-QUEEN-6PCS", base: 31.95, up: 43.95, h: 10, o: 1, n90: 137, str: true },
+    { r: "Sep", sku: "SATIN-KING-GREY-6PCS", base: 33.95, up: 53.95, h: 10, o: 2, n90: 66, str: true },
+    { r: "Sep", sku: "SATIN-TWIN-BLUE-6PCS", base: 27.95, up: 39.95, h: 10, o: 0, n90: 12, str: true, note: "Team sheet: 1 order. Command Center shows none at the raised price" },
+    { r: "Sep", sku: "SATIN-SEA-TEAL-FULL-6PCS", base: 29.95, up: 38.95, h: 13, o: 1, n90: 58, str: true },
+    { r: "Sep", sku: "SATIN-RED-KING-6PCS", base: 33.95, up: 53.95, h: 10, o: 1, n90: 116, str: true },
+    { r: "Sep", sku: "BAMBOO-FULL-CREME-6PCS", base: 69.99, up: 94.99, h: 10, o: 1, n90: 62, str: false, note: "Only order came the day before the revert" },
+    { r: "Sep", sku: "SATIN-QUEEN-BLUE-6PCS", base: 31.95, up: 46.95, h: 12, o: 1, n90: 73, str: false, note: "Only order came the day before the revert" },
+    { r: "Sep", sku: "BAMBOO-TWIN-TAUPE", base: 54.99, up: 82.99, h: 8, o: 1, str: false },
+    { r: "Sep", sku: "SATIN-4PC-TWIN-BLUSH PINK", base: 27.95, up: 36.95, h: 6, o: 0, str: false },
+    { r: "Sep", sku: "SATIN-4PCS-QUEEN-STONE-GREY", base: 31.95, up: 44.95, h: 5, o: 5, str: false },
+    { r: "Sep", sku: "BAMBOO-KING-LIGHTGREY-6PCS", base: 84.99, up: 115.99, h: 4, o: 2, str: false },
+    { r: "Sep", sku: "BAMBOO-QUEEN-CREME", base: 74.99, up: 104.99, h: 3, o: 2, str: false, note: "Only Typical Price showed" },
+    { r: "Sep", sku: "BAMBOO-KING-NAVYBLUE-6PCS", base: 84.99, up: 111.99, h: 3, o: 6, str: false, note: "Only Typical Price showed" },
+    { r: "Sep", sku: "BAMBOO-QUEEN-BURGUNDY-6PCS", base: 79.99, up: 107.99, h: 3, o: 3, str: false, note: "Only Typical Price showed" },
+    { r: "Sep", sku: "SATIN-4PC-RED-QUEEN", base: 31.95, up: 49.95, h: 3, o: 6, str: false },
+    { r: "Sep", sku: "SATIN-WHITE-FULL", base: 29.95, up: 47.95, h: 3, o: 3, str: false },
+    { r: "Sep", sku: "SATIN-3PC-TWIN-NAVY BLUE", base: 27.95, up: 39.95, h: 3, o: 1, str: false }
+  ];
+  TESTS.forEach(function (t) {
+    t.inc = (t.up - t.base) / t.base * 100;
+    t.share = t.n90 ? t.o / t.n90 * 100 : null;
+  });
+
+  // Daily orders at the raised price (day 1 = raise day), revert day, for the October 9-day and 11-day holds
+  var TIMELINE = [
+    { sku: "SS-SATIN-TAUPE-QUEEN-4PCS", str: true, revert: 12, orders: { 2: 1, 3: 1, 7: 2, 10: 1 } },
+    { sku: "PURPLE-SATIN-SET-6PCS", str: true, revert: 12, orders: { 4: 2 } },
+    { sku: "SS-SATIN-PURPLE-KING-4PCS", str: true, revert: 12, orders: { 1: 1, 4: 2, 6: 1, 7: 1, 8: 1, 10: 2 } },
+    { sku: "BAMBOO-FULL-CREME", str: true, revert: 12, orders: { 5: 1, 6: 1 } },
+    { sku: "SS-SATIN-IVORY-QUEEN-4PCS", str: true, revert: 12, orders: { 1: 2, 2: 3, 4: 2, 7: 3, 11: 2 } },
+    { sku: "BAMBOO-CALIFKING-TAUPE", str: false, revert: 10, orders: { 3: 1, 4: 1, 7: 1 } },
+    { sku: "SS-SATIN-STRIPED-RED-QUEEN-4PCS", str: false, revert: 10, orders: { 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 8: 2, 9: 1 } },
+    { sku: "SATIN-6PC-QUEEN-BABY BLUE", str: false, revert: 10, orders: {} }
+  ];
+
+  var PRODUCTS = [
+    { sku: "SS-SATIN-TAUPE-QUEEN-4PCS", asin: "B0DDR4V4XB", name: "Sleep Sanctuary satin, Queen 4 pc, Taupe", img: "https://m.media-amazon.com/images/I/51TzmSbrF7L.jpg", sw: "#b5a28c", color: "Taupe" },
+    { sku: "PURPLE-SATIN-SET-6PCS", asin: "B0C9LSVFPR", name: "DECOLURE satin, Queen 6 pc, Purple", img: "https://m.media-amazon.com/images/I/51C2aY%2BHe1L.jpg", sw: "#6c4f92", color: "Purple" },
+    { sku: "SS-SATIN-PURPLE-KING-4PCS", asin: "B0DDRCQZ7G", name: "Sleep Sanctuary satin, King 4 pc, Purple", img: "https://m.media-amazon.com/images/I/51Kbr%2BrDG9L.jpg", sw: "#5e4486", color: "Purple" },
+    { sku: "BAMBOO-FULL-CREME", asin: "B08KQJ3JSW", name: "DECOLURE bamboo, Full 4 pc, Creme", img: "https://m.media-amazon.com/images/I/51bWzm3jKBL.jpg", sw: "#efe4cc", color: "Creme" },
+    { sku: "SS-SATIN-IVORY-QUEEN-4PCS", asin: "B0DDRHN5JH", name: "Sleep Sanctuary satin, Queen 4 pc, Ivory", img: "https://m.media-amazon.com/images/I/510SN5fE0CL.jpg", sw: "#f2ecdf", color: "Ivory" },
+    { sku: "BAMBOO-CALIFKING-TAUPE", asin: "B08KQJTLZP", name: "DECOLURE bamboo, Cal King 4 pc, Taupe", img: "https://m.media-amazon.com/images/I/51fIrPWLElL.jpg", sw: "#a8957f", color: "Taupe" },
+    { sku: "SS-SATIN-STRIPED-RED-QUEEN-4PCS", asin: "B0DDR852CS", name: "Sleep Sanctuary satin, Queen 4 pc, Striped Red", img: "https://m.media-amazon.com/images/I/51CTFaXz28L.jpg", sw: "#a9323c", color: "Striped Red" },
+    { sku: "SATIN-6PC-QUEEN-BABY BLUE", asin: "B0D9QSZH1N", name: "DECOLURE satin, Queen 6 pc, Baby Blue", img: "https://m.media-amazon.com/images/I/51qzvSzcAlL.jpg", sw: "#abc8e4", color: "Baby Blue" }
+  ];
+
+  var SVGNS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs, parent) {
+    var e = document.createElement(tag);
+    if (attrs) for (var k in attrs) {
+      if (k === "text") e.textContent = attrs[k];
+      else if (k === "cls") e.className = attrs[k];
+      else e.setAttribute(k, attrs[k]);
+    }
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function sv(tag, attrs, parent) {
+    var e = document.createElementNS(SVGNS, tag);
+    if (attrs) for (var k in attrs) {
+      if (k === "text") e.textContent = attrs[k];
+      else e.setAttribute(k, attrs[k]);
+    }
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function money(v) { return "$" + v.toFixed(2); }
+  function pct(v, d) { return v.toFixed(d == null ? 1 : d) + "%"; }
+  function find(sku) { for (var i = 0; i < TESTS.length; i++) if (TESTS[i].sku === sku && TESTS[i].r === "Oct") return TESTS[i]; return null; }
+
+  function statusPill(ok, parent, short) {
+    var p = el("span", { cls: "pill " + (ok ? "good" : "bad") }, parent);
+    var s = sv("svg", { width: 12, height: 12, viewBox: "0 0 12 12", "aria-hidden": "true" }, p);
+    if (ok) {
+      sv("circle", { cx: 6, cy: 6, r: 6, fill: "var(--good)" }, s);
+      sv("path", { d: "M3.2 6.2l1.8 1.8 3.8-3.9", fill: "none", stroke: "#ffffff", "stroke-width": 1.8, "stroke-linecap": "round", "stroke-linejoin": "round" }, s);
+    } else {
+      sv("circle", { cx: 6, cy: 6, r: 5, fill: "none", stroke: "var(--bad)", "stroke-width": 2 }, s);
+      sv("path", { d: "M4.3 4.3l3.4 3.4M7.7 4.3l-3.4 3.4", stroke: "var(--bad)", "stroke-width": 1.6, "stroke-linecap": "round" }, s);
+    }
+    p.appendChild(document.createTextNode(short || (ok ? "STR" : "No STR")));
+    return p;
+  }
+
+  // Tooltip
+  var tip = document.getElementById("tip");
+  function showTip(evt, lines) {
+    tip.textContent = "";
+    el("strong", { text: lines.value }, tip);
+    if (lines.sku) el("div", { cls: "tip-sku", text: lines.sku }, tip);
+    (lines.rows || []).forEach(function (r) { el("div", { cls: "tip-row", text: r }, tip); });
+    tip.hidden = false;
+    var x, y;
+    if (evt && evt.clientX != null && evt.type.indexOf("pointer") === 0) { x = evt.clientX; y = evt.clientY; }
+    else { var b = evt.target.getBoundingClientRect(); x = b.left + b.width / 2; y = b.top; }
+    var w = tip.offsetWidth, h = tip.offsetHeight;
+    var left = Math.min(Math.max(8, x + 14), window.innerWidth - w - 8);
+    var top = y - h - 12; if (top < 8) top = y + 18;
+    tip.style.left = left + "px"; tip.style.top = top + "px";
+  }
+  function hideTip() { tip.hidden = true; }
+  function bindTip(node, lines) {
+    node.addEventListener("pointerenter", function (e) { showTip(e, lines); });
+    node.addEventListener("pointermove", function (e) { showTip(e, lines); });
+    node.addEventListener("pointerleave", hideTip);
+    node.addEventListener("focus", function (e) { showTip(e, lines); });
+    node.addEventListener("blur", hideTip);
+  }
+  window.addEventListener("scroll", hideTip, { passive: true });
+
+  // Summary tiles
+  function bucket(t) { return t.h <= 8 ? "short" : t.h === 9 ? "nine" : "long"; }
+  (function tiles() {
+    var host = document.getElementById("tiles");
+    var defs = [
+      { key: "short", label: "Held 8 days or less", foot: "No strikethrough at any increase" },
+      { key: "nine", label: "Held exactly 9 days", foot: "Too close to Amazon's 9-day minimum" },
+      { key: "long", label: "Held more than 9 days", foot: "Our standard: 10 to 11 days" }
+    ];
+    defs.forEach(function (d) {
+      var set = TESTS.filter(function (t) { return bucket(t) === d.key; });
+      var won = set.filter(function (t) { return t.str; }).length;
+      var tile = el("div", { cls: "tile" + (d.key === "long" ? " win" : "") }, host);
+      el("div", { cls: "tile-label", text: d.label }, tile);
+      var v = el("div", { cls: "tile-value" }, tile);
+      v.appendChild(document.createTextNode(won + " of " + set.length));
+      el("small", { text: "got STR" }, v);
+      var m = el("div", { cls: "meter", role: "img", "aria-label": won + " of " + set.length + " got STR" }, tile);
+      var fill = el("span", null, m); fill.style.width = (set.length ? won / set.length * 100 : 0) + "%";
+      el("div", { cls: "tile-foot", text: d.foot }, tile);
+    });
+  })();
+
+  // Scatter: hold days vs increase
+  function drawScatter() {
+    var host = document.getElementById("scatter");
+    host.textContent = "";
+    var W = Math.max(300, host.clientWidth), narrow = W < 560;
+    var H = narrow ? 360 : 400;
+    var m = { l: 44, r: 12, t: 30, b: 48 };
+    var svg = sv("svg", { viewBox: "0 0 " + W + " " + H, width: W, height: H }, host);
+    var x0 = 1.4, x1 = 13.6, y0 = 0, y1 = 68;
+    function X(v) { return m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r); }
+    function Y(v) { return H - m.b - (v - y0) / (y1 - y0) * (H - m.t - m.b); }
+
+    // Long-hold region
+    sv("rect", { x: X(9.5), y: m.t, width: X(x1) - X(9.5), height: H - m.t - m.b, fill: "var(--good-tint)", rx: 6 }, svg);
+    // Grid + y ticks
+    for (var v = 0; v <= 60; v += 10) {
+      sv("line", { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), stroke: v === 0 ? "var(--axis)" : "var(--grid)", "stroke-width": 1 }, svg);
+      sv("text", { x: m.l - 8, y: Y(v) + 4, "text-anchor": "end", "class": "axis-text", text: v + "%" }, svg);
+    }
+    for (var d = 2; d <= 13; d++) {
+      if (narrow && d % 2 === 1 && d !== 9) continue;
+      sv("text", { x: X(d), y: H - m.b + 18, "text-anchor": "middle", "class": "axis-text", text: String(d) }, svg);
+    }
+    sv("text", { x: (m.l + W - m.r) / 2, y: H - 8, "text-anchor": "middle", "class": "axis-title", text: "Days held at the raised price" }, svg);
+    sv("text", { x: m.l, y: 14, "class": "axis-title", text: "Price increase" }, svg);
+    // 9-day boundary
+    sv("line", { x1: X(9.5), x2: X(9.5), y1: m.t - 4, y2: H - m.b, stroke: "var(--ink)", "stroke-width": 1.5, opacity: 0.6 }, svg);
+    sv("text", { x: X(9.5) - 6, y: m.t - 10, "text-anchor": "end", "class": "anno-sub", text: narrow ? "9-day minimum" : "Amazon: 9 days of featured offer data" }, svg);
+
+    // Region annotations
+    var shortSet = TESTS.filter(function (t) { return t.h <= 8; });
+    var longSet = TESTS.filter(function (t) { return t.h > 9; });
+    var longWon = longSet.filter(function (t) { return t.str; }).length;
+    sv("text", { x: X(1.7), y: Y(65), "class": "anno", text: "0 of " + shortSet.length + " got STR" }, svg);
+    sv("text", { x: X(13.5), y: Y(65), "text-anchor": "end", "class": "anno", text: longWon + " of " + longSet.length }, svg);
+    sv("text", { x: X(13.5), y: Y(65) + 15, "text-anchor": "end", "class": "anno-sub", text: "got STR" }, svg);
+
+    // Place points with simple collision avoidance per hold-day column
+    var cols = {};
+    TESTS.forEach(function (t) { (cols[t.h] = cols[t.h] || []).push(t); });
+    var offsets = [0, -0.2, 0.2, -0.4, 0.4, -0.6, 0.6];
+    Object.keys(cols).forEach(function (k) {
+      var placed = [];
+      cols[k].sort(function (a, b) { return a.inc - b.inc; }).forEach(function (t) {
+        var py = Y(t.inc), chosen = 0;
+        for (var i = 0; i < offsets.length; i++) {
+          var px = X(+k + offsets[i]);
+          var clash = placed.some(function (p) { return Math.abs(p.x - px) < 11 && Math.abs(p.y - py) < 11; });
+          if (!clash) { chosen = offsets[i]; break; }
+        }
+        var pt = { x: X(+k + chosen), y: py, t: t };
+        placed.push(pt);
+        var g = sv("g", { tabindex: 0, role: "img", "aria-label": t.sku + ", held " + t.h + " days, increase " + pct(t.inc, 0) + ", " + (t.str ? "STR" : "no STR") }, svg);
+        sv("circle", { cx: pt.x, cy: pt.y, r: 12, fill: "transparent" }, g);
+        if (t.str) sv("circle", { cx: pt.x, cy: pt.y, r: 5.5, fill: "var(--good)", stroke: "var(--surface)", "stroke-width": 2 }, g);
+        else sv("circle", { cx: pt.x, cy: pt.y, r: 4.5, fill: "var(--surface)", stroke: "var(--bad)", "stroke-width": 2 }, g);
+        bindTip(g, {
+          value: (t.str ? "STR achieved" : "No STR") + " · held " + t.h + " days",
+          sku: t.sku,
+          rows: [
+            (t.r === "Oct" ? "October" : "September") + " round",
+            money(t.base) + " to " + money(t.up) + " (+" + pct(t.inc, 1) + ")",
+            t.o + " order" + (t.o === 1 ? "" : "s") + " at the raised price"
+          ].concat(t.note ? [t.note] : [])
+        });
+      });
+    });
+  }
+
+  // 90-day share bars
+  (function drawBars() {
+    var host = document.getElementById("bars");
+    var set = TESTS.filter(function (t) { return t.r === "Oct" && t.h >= 9; }).sort(function (a, b) { return b.share - a.share; });
+    var max = 25;
+    var wrap = el("div", { cls: "bars" }, host);
+    set.forEach(function (t, i) {
+      var row = el("div", { cls: "bar-row", tabindex: 0, "aria-label": t.sku + ": " + pct(t.share) + " of 90-day orders, held " + t.h + " days, " + (t.str ? "STR" : "no STR") }, wrap);
+      var name = el("div", { cls: "bar-name" }, row);
+      el("div", { cls: "sku", text: t.sku }, name);
+      var meta = el("div", { cls: "meta" }, name);
+      statusPill(t.str, meta);
+      el("span", { text: "Held " + t.h + " days" }, meta);
+      var track = el("div", { cls: "bar-track" }, row);
+      var fill = el("div", { cls: "bar-fill " + (t.str ? "good" : "bad") }, track);
+      fill.style.width = (t.share / max * 100) + "%";
+      var val = el("div", { cls: "bar-val" }, track);
+      val.style.left = "calc(" + (t.share / max * 100) + "% + 4px)";
+      val.appendChild(document.createTextNode(pct(t.share) + " "));
+      el("em", { text: t.o + " of " + t.n90 }, val);
+      var ref = el("div", { cls: "ref-line" }, track); ref.style.left = (10 / max * 100) + "%";
+      bindTip(row, {
+        value: pct(t.share) + " of 90-day orders",
+        sku: t.sku,
+        rows: [t.o + " orders at " + money(t.up) + " out of " + t.n90 + " in 90 days", "Held " + t.h + " days · " + (t.str ? "STR achieved" : "No STR")]
+      });
+    });
+    var axis = el("div", { cls: "bar-axis" }, host);
+    el("div", null, axis);
+    var ticks = el("div", { cls: "ticks" }, axis);
+    [0, 5, 10, 15, 20, 25].forEach(function (v) {
+      var s = el("span", { text: v + "%" }, ticks); s.style.left = (v / max * 100) + "%";
+    });
+    var lab = el("span", { text: "10% of 90-day orders" }, ticks);
+    lab.style.left = (10 / max * 100) + "%"; lab.style.top = "20px"; lab.style.fontWeight = "600"; lab.style.color = "var(--ink)";
+  })();
+
+  // Order timeline
+  function drawTimeline() {
+    var host = document.getElementById("timeline");
+    host.textContent = "";
+    var days = 12;
+    var head = el("div", { cls: "tl-head" }, host);
+    el("div", null, head);
+    var hs = el("div", { cls: "tl-strip" }, head);
+    var probeW = Math.max(240, hs.clientWidth || 600);
+    var hsvg = sv("svg", { viewBox: "0 0 " + probeW + " 22", height: 22, "aria-hidden": "true" }, hs);
+    hsvg.style.height = "22px";
+    function DX(d, w) { return 10 + (d - 1) / (days - 1) * (w - 20); }
+    for (var d = 1; d <= days; d++) {
+      if (probeW < 360 && d % 2 === 0 && d !== 10 && d !== 12) continue;
+      sv("text", { x: DX(d, probeW), y: 14, "text-anchor": "middle", "class": "axis-text", text: (d === 1 ? "Day 1" : String(d)) }, hsvg);
+    }
+    var groups = [
+      { title: "Held 11 days", ok: true },
+      { title: "Reverted at 9 days", ok: false }
+    ];
+    groups.forEach(function (g) {
+      var gh = el("div", { cls: "tl-group" }, host);
+      statusPill(g.ok, gh);
+      gh.appendChild(document.createTextNode(g.title));
+      TIMELINE.filter(function (r) { return r.str === g.ok; }).forEach(function (r) {
+        var t = find(r.sku);
+        var row = el("div", { cls: "tl-row" }, host);
+        var lab = el("div", { cls: "tl-label" }, row);
+        el("div", { cls: "sku", text: r.sku }, lab);
+        el("div", { cls: "meta", text: t.o + " order" + (t.o === 1 ? "" : "s") + " at " + money(t.up) + " · " + (t.share != null ? pct(t.share) + " of 90-day" : "") }, lab);
+        var strip = el("div", { cls: "tl-strip" }, row);
+        var w = probeW;
+        var s = sv("svg", { viewBox: "0 0 " + w + " 40", height: 40, role: "img", "aria-label": r.sku + ": orders on days " + (Object.keys(r.orders).join(", ") || "none") + ", reverted on day " + r.revert }, strip);
+        var x0 = DX(1, w) - 8, xr = DX(r.revert, w);
+        for (var d = 1; d <= days; d++) sv("line", { x1: DX(d, w), x2: DX(d, w), y1: 8, y2: 32, stroke: "var(--grid)", "stroke-width": 1 }, s);
+        sv("rect", { x: x0, y: 14, width: xr - x0, height: 12, rx: 6, fill: r.str ? "var(--good-tint)" : "var(--bad-tint)", stroke: r.str ? "var(--good)" : "var(--bad)", "stroke-width": 1 }, s);
+        var rv = sv("g", { tabindex: 0 }, s);
+        sv("rect", { x: xr - 10, y: 2, width: 20, height: 36, fill: "transparent" }, rv);
+        sv("line", { x1: xr, x2: xr, y1: 6, y2: 34, stroke: "var(--ink)", "stroke-width": 2, "stroke-linecap": "round" }, rv);
+        bindTip(rv, { value: "Reverted on day " + r.revert, sku: r.sku, rows: ["Held " + (r.revert - 1) + " days at " + money(t.up), r.str ? "STR showing after the revert" : "No STR after the revert"] });
+        Object.keys(r.orders).forEach(function (k) {
+          var n = r.orders[k], cx = DX(+k, w);
+          var g = sv("g", { tabindex: 0 }, s);
+          sv("circle", { cx: cx, cy: 20, r: 12, fill: "transparent" }, g);
+          sv("circle", { cx: cx, cy: 20, r: n === 1 ? 4.5 : n === 2 ? 6 : 7.5, fill: "var(--ink)", stroke: "var(--surface)", "stroke-width": 2 }, g);
+          if (n > 1) sv("text", { x: cx, y: 7, "text-anchor": "middle", "class": "axis-text", text: "×" + n }, s);
+          bindTip(g, { value: n + " order" + (n === 1 ? "" : "s") + " on day " + k, sku: r.sku, rows: ["At " + money(t.up)] });
+        });
+      });
+    });
+  }
+
+  // Product cards
+  (function cards() {
+    var host = document.getElementById("cards");
+    PRODUCTS.forEach(function (p) {
+      var t = find(p.sku);
+      var c = el("article", { cls: "card" }, host);
+      var media = el("div", { cls: "card-img" }, c);
+      var sw = el("div", { cls: "swatch", hidden: "" }, media);
+      sw.style.background = p.sw;
+      el("span", { text: p.color }, sw);
+      var img = el("img", { src: p.img, alt: p.name, loading: "lazy", referrerpolicy: "no-referrer" }, media);
+      img.addEventListener("error", function () { img.hidden = true; sw.hidden = false; });
+      var st = el("div", { cls: "card-status" }, media);
+      statusPill(t.str, st, t.str ? "STR showing" : "No STR");
+      var b = el("div", { cls: "card-body" }, c);
+      el("div", { cls: "card-sku", text: p.sku }, b);
+      el("div", { cls: "card-title", text: p.name }, b);
+      var pr = el("div", { cls: "card-price" }, b);
+      if (t.str) {
+        var off = Math.round((1 - t.base / t.up) * 100);
+        el("span", { cls: "off", text: "-" + off + "%" }, pr);
+        el("span", { cls: "now", text: money(t.base) }, pr);
+        var lp = el("span", { cls: "list" }, pr);
+        lp.appendChild(document.createTextNode("List Price: "));
+        el("s", { text: money(t.up) }, lp);
+      } else {
+        el("span", { cls: "now", text: money(t.base) }, pr);
+        el("span", { cls: "list", text: "Raised to " + money(t.up) + ", no strikethrough after the revert" }, pr);
+      }
+      var f = el("dl", { cls: "facts" }, b);
+      [["Held", t.h + " days"], ["Orders", String(t.o)], ["Of 90-day", pct(t.share)]].forEach(function (kv) {
+        var d = el("div", null, f); el("dt", { text: kv[0] }, d); el("dd", { text: kv[1] }, d);
+      });
+      var foot = el("div", { cls: "card-foot" }, b);
+      el("a", { href: "https://www.amazon.com/dp/" + p.asin, target: "_blank", rel: "noopener", text: "View on Amazon" }, foot);
+      el("span", { cls: "shot", text: t.str ? "PDP screenshot: to add" : "" }, foot);
+    });
+  })();
+
+  // Playbook "not needed" pills
+  ["nn1", "nn2", "nn3"].forEach(function (id) { var p = document.getElementById(id); p.replaceWith(statusPill(false, null, "Not needed")); });
+
+  // October ladder
+  (function ladder() {
+    var tb = document.getElementById("ladder");
+    var thead = el("thead", null, tb), tr = el("tr", null, thead);
+    ["Hold", "Increases tested", "SKUs", "Orders at raised price", "Result"].forEach(function (h) { el("th", { text: h, scope: "col" }, tr); });
+    var tbody = el("tbody", null, tb);
+    var oct = TESTS.filter(function (t) { return t.r === "Oct"; });
+    var holds = [2, 3, 4, 5, 6, 7, 8, 9, 11];
+    holds.forEach(function (h) {
+      var set = oct.filter(function (t) { return t.h === h; });
+      var won = set.filter(function (t) { return t.str; }).length;
+      var incs = set.map(function (t) { return Math.round(t.inc); });
+      var lo = Math.min.apply(null, incs), hi = Math.max.apply(null, incs);
+      var orders = set.reduce(function (s, t) { return s + t.o; }, 0);
+      var r = el("tr", { cls: h > 9 ? "long" : "" }, tbody);
+      el("td", { text: h + " days" }, r);
+      el("td", { cls: "num", text: lo === hi ? lo + "%" : lo + "% to " + hi + "%" }, r);
+      el("td", { cls: "num", text: String(set.length) }, r);
+      el("td", { cls: "num", text: String(orders) }, r);
+      var c = el("td", null, r);
+      statusPill(won > 0, c, won + " of " + set.length + " got STR");
+    });
+  })();
+
+  // Full record table
+  (function record() {
+    var state = { round: "all", result: "all", hold: "all", sort: "h", dir: -1 };
+    var filters = document.getElementById("filters");
+    var defs = [
+      { key: "round", label: "Round", opts: [["all", "All"], ["Oct", "October"], ["Sep", "September"]] },
+      { key: "result", label: "Result", opts: [["all", "All"], ["yes", "STR"], ["no", "No STR"]] },
+      { key: "hold", label: "Hold", opts: [["all", "All"], ["short", "8 days or less"], ["nine", "9 days"], ["long", "More than 9"]] }
+    ];
+    var countEl;
+    defs.forEach(function (d) {
+      var g = el("div", { cls: "fgroup", role: "group", "aria-label": d.label }, filters);
+      el("span", { text: d.label }, g);
+      d.opts.forEach(function (o) {
+        var b = el("button", { cls: "chip", type: "button", id: "f-" + d.key + "-" + o[0], "aria-pressed": String(state[d.key] === o[0]), text: o[1] }, g);
+        b.addEventListener("click", function () {
+          state[d.key] = o[0];
+          g.querySelectorAll(".chip").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+          render();
+        });
+      });
+    });
+    countEl = el("span", { cls: "count" }, filters);
+
+    var table = document.getElementById("rec");
+    var cols = [
+      { key: "r", label: "Round" }, { key: "sku", label: "SKU" }, { key: "inc", label: "Increase" },
+      { key: "h", label: "Hold" }, { key: "o", label: "Orders" }, { key: "share", label: "90-day share" }, { key: "str", label: "Result" }
+    ];
+    var thead = el("thead", null, table), htr = el("tr", null, thead), ths = [];
+    cols.forEach(function (c) {
+      var th = el("th", { scope: "col", tabindex: 0, text: c.label }, htr);
+      ths.push(th);
+      function go() { if (state.sort === c.key) state.dir *= -1; else { state.sort = c.key; state.dir = c.key === "sku" || c.key === "r" ? 1 : -1; } render(); }
+      th.addEventListener("click", go);
+      th.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+    });
+    var tbody = el("tbody", null, table);
+
+    function render() {
+      var rows = TESTS.filter(function (t) {
+        if (state.round !== "all" && t.r !== state.round) return false;
+        if (state.result === "yes" && !t.str) return false;
+        if (state.result === "no" && t.str) return false;
+        if (state.hold !== "all" && bucket(t) !== state.hold) return false;
+        return true;
+      });
+      rows.sort(function (a, b) {
+        var k = state.sort, va = a[k], vb = b[k];
+        if (va == null) va = -1; if (vb == null) vb = -1;
+        if (typeof va === "boolean") { va = +va; vb = +vb; }
+        if (va < vb) return -1 * state.dir; if (va > vb) return 1 * state.dir;
+        return a.sku < b.sku ? -1 : 1;
+      });
+      ths.forEach(function (th, i) { th.setAttribute("aria-sort", cols[i].key === state.sort ? (state.dir === 1 ? "ascending" : "descending") : "none"); });
+      tbody.textContent = "";
+      rows.forEach(function (t) {
+        var tr = el("tr", null, tbody);
+        el("td", { text: t.r === "Oct" ? "October" : "September" }, tr);
+        var s = el("td", { cls: "sku", text: t.sku }, tr);
+        if (t.note) el("span", { cls: "n", text: t.note }, s);
+        el("td", { cls: "num", text: money(t.base) + " to " + money(t.up) + "  +" + pct(t.inc, 0) }, tr);
+        el("td", { cls: "num", text: t.h + " days" }, tr);
+        el("td", { cls: "num", text: String(t.o) }, tr);
+        el("td", { cls: "num", text: t.share != null ? pct(t.share) + " (" + t.n90 + ")" : "" }, tr);
+        statusPill(t.str, el("td", null, tr));
+      });
+      countEl.textContent = rows.length + " of " + TESTS.length + " tests";
+    }
+    render();
+  })();
+
+  drawScatter();
+  drawTimeline();
+  var rt;
+  window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { drawScatter(); drawTimeline(); }, 120); });
+})();
+</script>
+</body>
+</html>
