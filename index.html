@@ -332,16 +332,16 @@ footer .wrap { padding-block: 22px 32px; font-size: 12.5px; color: var(--muted);
   </section>
 
   <section id="hold" aria-labelledby="h-hold">
-    <h2 id="h-hold">Every STR came from a hold of 9 days or more, at any increase</h2>
+    <h2 id="h-hold">Every STR came from a hold of more than 9 days, at any increase</h2>
     <p class="sub">Each mark is one SKU test. Across the bottom is how many days we held the raised price, and up the side is how much we raised it. Small and large increases both failed on short holds, and both worked on long ones.</p>
     <div class="panel">
       <div class="legend" aria-hidden="true">
         <span><svg width="14" height="14"><circle cx="7" cy="7" r="5.5" fill="var(--good)"/></svg>STR achieved</span>
         <span><svg width="14" height="14"><circle cx="7" cy="7" r="4.5" fill="var(--surface)" stroke="var(--bad)" stroke-width="2"/></svg>No STR</span>
       </div>
-      <div class="chart" id="scatter" role="img" aria-label="Scatter of hold days against price increase. All 39 tests held 8 days or less show no STR. Of tests held more than 9 days, 15 of 17 show STR, at increases from 8% to 59%."></div>
+      <div class="chart" id="scatter" role="img" aria-label="Scatter of hold days against price increase. All 39 tests held 8 days or less show no STR. None of the 3 tests reverted at exactly 9 days show STR. Of tests held more than 9 days, 16 of 18 show STR, at increases from 8% to 59%."></div>
     </div>
-    <p class="note">September SATIN-QUEEN-PURPLE got the STR at exactly 9 days. The three October SKUs reverted at exactly 9 days did not. That is why the standard is 10 to 11 days.</p>
+    <p class="note">Every SKU reverted at exactly 9 days failed. The team sheet listed SATIN-QUEEN-PURPLE (September) as a 9-day hold, but the listing feed shows its raised price stayed live for about 10 days, so it is counted as more than 9 days.</p>
   </section>
 
   <section id="sales" aria-labelledby="h-sales">
@@ -485,7 +485,7 @@ footer .wrap { padding-block: 22px 32px; font-size: 12.5px; color: var(--muted);
     { r: "Sep", sku: "BAMBOO-TWIN-NAVYBLUE-6PCS", base: 59.99, up: 82.99, h: 10, o: 1, n90: 28, str: true },
     { r: "Sep", sku: "BAMBOO-QUEEN-MIDGREY-6PCS", base: 79.99, up: 114.99, h: 12, o: 2, n90: 171, str: true },
     { r: "Sep", sku: "SATIN-4PCS-KING-STONEGREY", base: 33.95, up: 52.95, h: 10, o: 5, n90: 216, str: true },
-    { r: "Sep", sku: "SATIN-QUEEN-PURPLE", base: 31.95, up: 41.49, h: 9, o: 8, n90: 204, str: true },
+    { r: "Sep", sku: "SATIN-QUEEN-PURPLE", base: 31.95, up: 41.49, h: 10, o: 8, n90: 204, str: true, note: "Team sheet: 9 days. Listing feed shows the raised price live for about 10 days" },
     { r: "Sep", sku: "SATIN-STONEGREY-QUEEN-6PCS", base: 31.95, up: 43.95, h: 10, o: 1, n90: 137, str: true },
     { r: "Sep", sku: "SATIN-KING-GREY-6PCS", base: 33.95, up: 53.95, h: 10, o: 2, n90: 66, str: true },
     { r: "Sep", sku: "SATIN-TWIN-BLUE-6PCS", base: 27.95, up: 39.95, h: 10, o: 0, n90: 12, str: true, note: "Team sheet: 1 order. Command Center shows none at the raised price" },
@@ -602,7 +602,7 @@ footer .wrap { padding-block: 22px 32px; font-size: 12.5px; color: var(--muted);
     var host = document.getElementById("tiles");
     var defs = [
       { key: "short", label: "Held 8 days or less", foot: "No strikethrough at any increase" },
-      { key: "nine", label: "Held exactly 9 days", foot: "Too close to Amazon's 9-day minimum" },
+      { key: "nine", label: "Held exactly 9 days", foot: "Reverting on day 9 was not enough" },
       { key: "long", label: "Held more than 9 days", foot: "Our standard: 10 to 11 days" }
     ];
     defs.forEach(function (d) {
